@@ -137,6 +137,11 @@ Using `vert` splits the CoffeeCompile buffer vertically instead of horizontally:
 
     :CoffeeCompile vert
 
+You can always open the CoffeeCompile buffer in a vertical split by setting the
+`coffee_split_direction` variable:
+
+    let coffee_split_direction = "vert"
+
 The initial size of the CoffeeCompile buffer can be given as a number:
 
     :CoffeeCompile 4

@@ -24,6 +24,11 @@ if !len(&l:makeprg)
   compiler coffee
 endif
 
+" Variable to always open CoffeeCompile vertically
+let coffee_split_direction =
+      \ exists("coffee_split_direction") &&
+      \ g:coffee_split_direction =~ 'vert' ? "vertical" : ""
+
 " Reset the global variables used by CoffeeCompile.
 function! s:CoffeeCompileResetVars()
   " Position in the source buffer
@@ -124,8 +129,11 @@ function! s:CoffeeCompile(startline, endline, args)
   " Parse arguments.
   let watch = a:args =~ '\<watch\>'
   let unwatch = a:args =~ '\<unwatch\>'
-  let vert = a:args =~ '\<vert\%[ical]\>'
   let size = str2nr(matchstr(a:args, '\<\d\+\>'))
+   
+  " Determine default split direction.
+  let vert = g:coffee_split_direction == "" ?
+           \ a:args =~ '\<vert\%[ical]\>' : 1
 
   " Remove any watch listeners.
   silent! autocmd! CoffeeCompileAuWatch
