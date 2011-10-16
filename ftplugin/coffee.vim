@@ -27,7 +27,7 @@ endif
 " Variable to always open CoffeeCompile vertically
 let coffee_split_direction =
       \ exists("coffee_split_direction") &&
-      \ g:coffee_split_direction =~ 'vert' ? "vertical" : ""
+      \ g:coffee_split_direction == 1 ? 1 : 0
 
 " Reset the global variables used by CoffeeCompile.
 function! s:CoffeeCompileResetVars()
@@ -132,7 +132,7 @@ function! s:CoffeeCompile(startline, endline, args)
   let size = str2nr(matchstr(a:args, '\<\d\+\>'))
    
   " Determine default split direction.
-  let vert = g:coffee_split_direction == "" ?
+  let vert = g:coffee_split_direction != 1 ?
            \ a:args =~ '\<vert\%[ical]\>' : 1
 
   " Remove any watch listeners.
