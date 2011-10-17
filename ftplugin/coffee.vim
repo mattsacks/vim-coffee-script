@@ -24,11 +24,6 @@ if !len(&l:makeprg)
   compiler coffee
 endif
 
-" Variable to always open CoffeeCompile vertically
-let coffee_compile_vert =
-      \ exists("coffee_compile_vert") &&
-      \ g:coffee_compile_vert == 1 ? 1 : 0
-
 " Reset the global variables used by CoffeeCompile.
 function! s:CoffeeCompileResetVars()
   " Position in the source buffer
@@ -132,8 +127,11 @@ function! s:CoffeeCompile(startline, endline, args)
   let size = str2nr(matchstr(a:args, '\<\d\+\>'))
    
   " Determine default split direction.
-  let vert = g:coffee_compile_vert != 1 ?
-           \ a:args =~ '\<vert\%[ical]\>' : 1
+  if exists("g:coffee_compile_vert") && g:coffee_compile_vert == 1
+    let vert = 1
+  else
+    let vert = a:args =~ '\<vert\%[ical]\>'
+  endif
 
   " Remove any watch listeners.
   silent! autocmd! CoffeeCompileAuWatch
