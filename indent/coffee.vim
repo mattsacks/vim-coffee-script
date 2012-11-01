@@ -333,6 +333,16 @@ function! s:GetCoffeeIndent(curlinenum)
     endif
   endif
 
+  " If this line is empty, search backwards and return the indent of the
+  " previous line that received an explicit number from GetCoffeeIndent()
+  if getline(a:curlinenum) == ''
+    let x = a:curlinenum - 1
+    while x >= 0 && s:GetCoffeeIndent(x) == -1
+      let x -= 1
+    endwhile
+    return s:GetCoffeeIndent(x) - 1
+  endif
+
   " Keep the current indent.
   return -1
 endfunction
